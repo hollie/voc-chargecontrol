@@ -162,6 +162,19 @@ voc-chargecontrol.pl - Use the VolvoOnCall API to suspend or resume the charging
     
 =head1 DESCRIPTION
 
+This script can either be run from the commandline for direct control or it can listen to an MQTT server to receive commands.
+
+In direct mode, use the command:
+
+    C<./voc_chargecontrol.pl --voc-user ... --voc-pass ... --vin ... --location-id ... --command [active|suspend]>
+
+For MQTT mode, pass the MQTT server name and potentially the MQTT server username and password, together with the required VolvoOnCall parameters that are listed above.
+
+In MQTT mode this script will listen to topic:
+
+C<voc/chargestatus>
+
+for the commands of either C<suspend> or C<active>.
 
 
 =head1 Using docker to run this script in a container
@@ -170,7 +183,7 @@ This repository contains all required files to build a minimal Alpine linux cont
 The advantage of using this method of running the script is that you don't need to setup the required Perl
 environment to run the script, you just bring up the container.
 
-To do this check out this repository, configure the MQTT broker host, username and password in the C<.env> file and run:
+To do this check out this repository, configure the MQTT broker host, username, password and the required VolvoOnCall credentials in the C<.env> file and run:
 
 C<docker compose up -d>.
 
