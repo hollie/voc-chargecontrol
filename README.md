@@ -16,7 +16,7 @@ This script can either be run from the commandline for direct control or it can 
 In direct mode, use the command:
 
 ```perl
-C<./voc_chargecontrol.pl --voc-user ... --voc-pass ... --vin ... --location-id ... --command [active|suspend]>
+./voc_chargecontrol.pl --voc-user ... --voc-pass ... --vin ... --location-id ... --command [active|suspend]
 ```
 
 For MQTT mode, pass the MQTT server name and potentially the MQTT server username and password, together with the required VolvoOnCall parameters that are listed above.
