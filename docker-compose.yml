@@ -7,7 +7,7 @@ services:
      restart: unless-stopped
      environment:
        - MQTT_SIMPLE_ALLOW_INSECURE_LOGIN=1
-     entrypoint: [ "./voc-chargecontrol.pl",  "--host=${MQTT_HOST}",  "--user=${MQTT_USERNAME}",  "--pass=${MQTT_PASSWORD}", "--voc-user=${VOC_USERNAME}", "--voc-pass={$VOC_PASSWORD}", "--vin=${VIN}", "--location-id=${LOCATION_ID}" ]
+     entrypoint: [ "./voc-chargecontrol.pl",  "--host=${MQTT_HOST}",  "--mqtt-user=${MQTT_USERNAME}",  "--mqtt-pass=${MQTT_PASSWORD}", "--voc-user=${VOC_USERNAME}", "--voc-pass={$VOC_PASSWORD}", "--vin=${VIN}", "--location-id=${LOCATION_ID}" ]
      init: true
      security_opt:
        - no-new-privileges:true
