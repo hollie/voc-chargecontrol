@@ -13,15 +13,21 @@ RUN apk add --no-cache \
      wget \
      perl \
      perl-dev \
-     perl-app-cpanminus 
+     perl-app-cpanminus \
+     perl-html-parser \
+     perl-log-log4perl \
+     perl-json \
+     perl-getopt-long \
+     perl-lwp-protocol-https \
+     perl-libwww
 #     expat-dev
   
 RUN cpanm \
      Net::MQTT::Simple \
-     Log::Log4perl     \
-     Getopt::Long      \
+#     Log::Log4perl     \
+#     Getopt::Long      \
      Pod::Usage        \
-     JSON              \
+#     JSON              \
      LWP::UserAgent
 
 RUN apk add tzdata \
