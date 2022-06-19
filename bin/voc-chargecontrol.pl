@@ -59,6 +59,7 @@ if ( !defined $command ) {
 	# Subscribe to topics:
 	my $status_topic = 'voc/chargestatus';
 	$mqtt->subscribe( $status_topic, \&mqtt_handler );
+	$mqtt->run();
 	
 } else {
 	suspend_charging($command);
