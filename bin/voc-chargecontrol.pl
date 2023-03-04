@@ -128,7 +128,7 @@ sub suspend_charging {
 	my $starttime = sprintf( "%02d:%02d", ( $hour + 23 ) % 24, 0 );
 
 	# In case we received a $sleepuntil time we should only start charging then
-	$starttime = $sleep_until if (defined $sleep_until);
+	$starttime = $sleep_until if ($sleep_until ne '');
 
 	my $body_suspend = {
 		"status"                => "Accepted",
