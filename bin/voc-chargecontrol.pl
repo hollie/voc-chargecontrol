@@ -58,7 +58,11 @@ if ( !defined $command ) {
 	
 	# Subscribe to topics:
 	my $status_topic = 'voc/chargestatus';
+	my $sleep_until_topic = 'voc/sleep_until';
+	
 	$mqtt->subscribe( $status_topic, \&mqtt_handler );
+	$mqtt->subscribe( $sleep_until_topic, \&mqtt_handler );
+	
 	$mqtt->run();
 	
 } else {
@@ -74,6 +78,16 @@ sub mqtt_handler {
 
 	if ( $topic =~ /chargestatus/ ) {
 		suspend_charging($data);
+		return;
+	}
+	
+	if ($topic =~ /sleep_until/) {
+		if ($data =~ /\d+\:\d{2}/) {
+			INFO "Going to suspend sleep until '$data'";
+			suspend_charging('suspend', $data)
+		} else {
+			WARN "Please pass a valid time in HH:MM format to suspend charging until that time";
+		}
 	}
 	else {
 		WARN "Invalid message received from topic " . $topic;
@@ -84,6 +98,7 @@ sub mqtt_handler {
 
 sub suspend_charging {
 	my $status = shift();
+	my $sleep_until = shift() // '';
 
 	DEBUG "Got command '$status'";
 	
@@ -111,6 +126,12 @@ sub suspend_charging {
 
 	my $stoptime = sprintf( "%02d:%02d", $hour, 0 );
 	my $starttime = sprintf( "%02d:%02d", ( $hour + 23 ) % 24, 0 );
+
+	# In case we received a $sleep_until time ensure to override start and stoptime
+	if (defined $sleep_until) {
+		$starttime = $stoptime; # We need to sleep immediately
+		$stoptime = $sleep_until; # Until the defined stoptime
+	}
 
 	my $body_suspend = {
 		"status"                => "Accepted",
@@ -176,6 +197,9 @@ C<voc/chargestatus>
 
 for the commands of either C<suspend> or C<active>.
 
+C<voc/sleepuntil>
+
+for a time until the car charging should be paused. Post a time in HH::MM format to this topic to start sleeping the charge process.
 
 =head1 Using docker to run this script in a container
 
