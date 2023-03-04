@@ -58,7 +58,7 @@ if ( !defined $command ) {
 	
 	# Subscribe to topics:
 	my $status_topic = 'voc/chargestatus';
-	my $sleep_until_topic = 'voc/sleep_until';
+	my $sleep_until_topic = 'voc/sleepuntil';
 	
 	$mqtt->subscribe( $status_topic, \&mqtt_handler );
 	$mqtt->subscribe( $sleep_until_topic, \&mqtt_handler );
