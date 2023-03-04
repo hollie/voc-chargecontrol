@@ -127,11 +127,8 @@ sub suspend_charging {
 	my $stoptime = sprintf( "%02d:%02d", $hour, 0 );
 	my $starttime = sprintf( "%02d:%02d", ( $hour + 23 ) % 24, 0 );
 
-	# In case we received a $sleep_until time ensure to override start and stoptime
-	if (defined $sleep_until) {
-		$starttime = $stoptime; # We need to sleep immediately
-		$stoptime = $sleep_until; # Until the defined stoptime
-	}
+	# In case we received a $sleepuntil time we should only start charging then
+	$starttime = $sleep_until if (defined $sleep_until);
 
 	my $body_suspend = {
 		"status"                => "Accepted",
@@ -162,6 +159,8 @@ sub suspend_charging {
 	  ? encode_json($body_suspend)
 	  : encode_json($body_continue);
 
+	DEBUG "Request to be sent is $json";
+	
 	my $r = HTTP::Request->new( 'PUT', $url, $headers, $json );
 	$r->authorization_basic( $voc_username, $voc_password );
 
