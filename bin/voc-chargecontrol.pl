@@ -81,7 +81,7 @@ sub mqtt_handler {
 		return;
 	}
 	
-	if ($topic =~ /sleep_until/) {
+	if ($topic =~ /sleepuntil/) {
 		if ($data =~ /\d+\:\d{2}/) {
 			INFO "Going to suspend sleep until '$data'";
 			suspend_charging('suspend', $data)
@@ -90,7 +90,7 @@ sub mqtt_handler {
 		}
 	}
 	else {
-		WARN "Invalid message received from topic " . $topic;
+		WARN "Message received from invliad topic '" . $topic ."'";
 		return;
 	}
 
